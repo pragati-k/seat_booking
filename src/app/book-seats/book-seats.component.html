@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h4>Number of Seats</h4>
+            <ng-container *ngIf="data$ | async as d">
+                <p>Total: {{ d.total }} Booked: {{ d.booked }} Left: {{ d.left }}</p>
+            </ng-container>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form [formGroup]="formBooking" (ngSubmit)="book_seat()">
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="number" formControlName="numOfSeats"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="submit" [disabled]="!formBooking.valid" class="btn btn-outline-primary">
+                                    Book
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-12">
+                    <p class="text-danger">{{ error_message }}</p>
+                </div>
+                <div class="col-sm-12">
+                    <h4>Booked Seat Numbers</h4>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr *ngFor="let b of bookings">
+                                <td>{{ b.seats }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1">&nbsp;</div>
+        <div class="col-sm-7 vertical">
+            <h4>Coach Layout</h4>
+            <ng-container *ngIf="data$ | async as d">
+                <ng-container *ngFor="let r of d.coach">
+                    <div class="coach_row">
+                        <div class="rowx">R-{{ r.row_num }}</div>
+
+                        <ng-container *ngIf="r.row_num !== 12">
+                            <ng-container *ngFor="let n of sevenSeater">
+                                <div style="text-align: center">
+                                    <img [src]="
+                        checkBooked(n, r.row_num, r.seats_booked)
+                          ? 'https://cdn-icons-png.flaticon.com/128/1723/1723655.png'
+                          : 'https://cdn-icons-png.flaticon.com/128/1723/1723651.png'
+                      " width="30" height="30" />
+                                    <div>
+                                        {{ n + r.start_seat_number - 1 }}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-container *ngIf="r.row_num === 12">
+                            <ng-container *ngFor="let n of threeSeater">
+                                <div>
+                                    {{ n + r.start_seat_number - 1 }}
+                                </div>
+                                <img [src]="
+                      checkBooked(n, r.row_num, r.seats_booked)
+                        ? 'https://cdn-icons-png.flaticon.com/128/1723/1723655.png'
+                        : 'https://cdn-icons-png.flaticon.com/128/1723/1723651.png'
+                    " width="30" height="30" />
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

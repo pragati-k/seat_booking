@@ -1,0 +1,25 @@
+.coach_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1em;
+  }
+  
+  .container {
+    padding-top: 40px;
+  }
+  
+  .rowx {
+    margin-right: 32px;
+    font-size: 0.91em;
+  }
+  
+  .vertical {
+    border-left: 6px solid black;
+  }
+  @media only screen and (max-width: 570px) {
+    .vertical {
+      border: none;
+    }
+  }
+  
